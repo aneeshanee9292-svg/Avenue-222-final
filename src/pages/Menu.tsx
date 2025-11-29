@@ -20,13 +20,18 @@ export default function Menu({ onNavigateHome }: MenuProps) {
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<"all" | "veg" | "nonveg">("all");
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   useEffect(() => {
-    fetch("/menu.csv")
-      .then((response) => response.text())
-      .then((csv) => {
-        Papa.parse(csv, {
+    const fetchMenu = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/menu`);
+        if (!response.ok) throw new Error('Failed to load menu');
+        
+        const data = await response.json();
+        Papa.parse(data.csv, {
           header: true,
           skipEmptyLines: true,
           complete: (results) => {
@@ -34,11 +39,13 @@ export default function Menu({ onNavigateHome }: MenuProps) {
             setLoading(false);
           },
         });
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error loading menu:", error);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchMenu();
   }, []);
 
   const categories = [

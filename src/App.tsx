@@ -44,11 +44,6 @@ function App() {
     window.history.pushState({}, '', '/');
   };
 
-  const navigateToEdit = () => {
-    setCurrentPage('edit');
-    window.history.pushState({}, '', '/edit-by-admin');
-  };
-
   return (
     <>
       {currentPage === 'home' && <Home onNavigateToMenu={navigateToMenu} />}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Papa from "papaparse";
 import {
   Home,
@@ -29,6 +29,8 @@ export default function EditByAdmin() {
   const [status, setStatus] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   const [toast, setToast] = useState<{
     visible: boolean;
     type: "success" | "error";
@@ -49,20 +51,20 @@ export default function EditByAdmin() {
     if (authenticated) loadCsv();
   }, [authenticated]);
 
-  // Load CSV from /public/menu.csv
+  // Load CSV from backend API
   const loadCsv = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/menu.csv");
-      if (!res.ok) throw new Error("Failed to load CSV");
-      const text = await res.text();
-      const parsed = Papa.parse<Row>(text, { header: true, skipEmptyLines: true });
+      const res = await fetch(`${API_URL}/api/menu`);
+      if (!res.ok) throw new Error("Failed to load CSV from server");
+      const data = await res.json();
+      const parsed = Papa.parse<Row>(data.csv, { header: true, skipEmptyLines: true });
       setRows(parsed.data || []);
       setStatus(null);
     } catch (e: any) {
       console.error("CSV load failed:", e);
-      showToast("error", "Failed to load CSV");
-      setError("Failed to load CSV");
+      showToast("error", "Failed to load CSV: " + e.message);
+      setError("Failed to load CSV: " + e.message);
     } finally {
       setLoading(false);
     }
@@ -131,7 +133,7 @@ export default function EditByAdmin() {
     URL.revokeObjectURL(url);
   };
 
-  // ✅ Save to Netlify Function
+  // ✅ Save to Backend API
   const saveToServer = async () => {
     setStatus(null);
     setError(null);
@@ -142,7 +144,7 @@ export default function EditByAdmin() {
         columns: ["Category", "Type", "Dish Name", "Price", "Description"],
       });
 
-      const res = await fetch("/api/save-menu", {
+      const res = await fetch(`${API_URL}/api/save-menu`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ csv, pin }),
