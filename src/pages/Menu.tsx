@@ -22,7 +22,7 @@ export default function Menu({ onNavigateHome }: MenuProps) {
   const [filter, setFilter] = useState<"all" | "veg" | "nonveg">("all");
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_URL = 'https://avenue-222-final.onrender.com';
 
   useEffect(() => {
     const fetchMenu = async () => {

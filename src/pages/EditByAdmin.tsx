@@ -29,7 +29,7 @@ export default function EditByAdmin() {
   const [status, setStatus] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const API_URL = 'https://avenue-222-final.onrender.com';
 
   const [toast, setToast] = useState<{
     visible: boolean;
