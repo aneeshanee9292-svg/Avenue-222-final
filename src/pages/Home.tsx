@@ -8,7 +8,7 @@ interface HomeProps {
 }
 
 export default function Home({ onNavigateToMenu }: HomeProps) {
-  const phoneNumber = "9160561013";
+  const phoneNumber = "9063906920";
   const whatsappMessage = encodeURIComponent("Hi! I'd like to book a table at Avenue222.");
   const mapsUrl = "https://maps.google.com/?q=Avenue222+Restaurant";
 
@@ -139,7 +139,7 @@ export default function Home({ onNavigateToMenu }: HomeProps) {
             </a>
 
             <a
-              href="mailto:contact@avenue222.com"
+              href="mailto:avenue222@gmail.com"
               className="group transform transition-all hover:scale-110"
             >
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FFD4C2] to-[#FFF1E1] flex items-center justify-center shadow-lg group-hover:shadow-[0_0_15px_rgba(255,200,180,0.5)]">
