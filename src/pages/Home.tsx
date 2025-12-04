@@ -1,5 +1,6 @@
 // ...existing imports...
 import { Phone, MessageCircle, MapPin, Instagram, Facebook, Mail } from "lucide-react";
+import { useEffect } from "react";
 import ImageCarousel from "../components/ImageCarousel";
 import AnimatedText from "../components/AnimatedText";
 
@@ -11,6 +12,42 @@ export default function Home({ onNavigateToMenu }: HomeProps) {
   const phoneNumber = "9063906920";
   const whatsappMessage = encodeURIComponent("Hi! I'd like to book a table at Avenue222.");
   const mapsUrl = "https://maps.google.com/?q=Avenue222+Restaurant";
+
+  // Add structured data (Schema.org JSON-LD) for better SEO
+  useEffect(() => {
+    const schemaData = {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Avenue222",
+      "image": "https://avenue222.in/og-image.jpg",
+      "description": "A celebration of taste, crafted with passion and served with warmth. Avenue222 is where elegance meets taste.",
+      "url": "https://avenue222.in",
+      "telephone": "+91-9063906920",
+      "priceRange": "₹₹₹",
+      "addressCountry": "IN",
+      "cuisineType": "Indian, Continental",
+      "servesCuisine": ["Indian", "Continental", "Tandoori"],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Reservation",
+        "telephone": "+91-9063906920",
+        "contactOption": "TollFree"
+      },
+      "sameAs": [
+        "https://instagram.com",
+        "https://facebook.com"
+      ]
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(schemaData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
 
   const handlePhoneClick = () => window.location.href = `tel:${phoneNumber}`;
   const handleWhatsAppClick = () => window.open(`https://wa.me/${phoneNumber}?text=${whatsappMessage}`, "_blank");

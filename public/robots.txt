@@ -1,0 +1,23 @@
+# Avenue222 Restaurant - robots.txt
+# Allow search engines to crawl all pages
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.env
+Disallow: /node_modules
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+
+# Specific rules for Bing
+User-agent: Bingbot
+Allow: /
+
+# Specific rules for Yandex
+User-agent: YandexBot
+Allow: /
+
+# Sitemap location
+Sitemap: https://avenue222.in/sitemap.xml
